@@ -5,8 +5,10 @@ This is a Django based example for working with Neo4J data and authorization in 
 We allow users to retrieve data through REST endpoints but provide only data from a limited subgraph where a user has access, based on department.
 Users can see their own department data, and users in the 'Audit' group can see all data.
 
-The REST endpoint `/project_tasks` will query Neo4J with data that is only relevant for the scope that they are allowed to see. The REST endpoint `/own_project_tasks` does the same and filters on the tasks assigned to the given user.
-For this example there is a simple front-end to login for the users and show the different results.
+For this example there is a simple front-end to login for the users and show the different results. The REST endpoint `/project_tasks` will query Neo4J with data that is only relevant for the scope that they are allowed to see. The REST endpoint `/own_project_tasks` does the same and filters on the tasks assigned to the given user.
+
+![screenshot](https://github.com/jelmerdereus/graph-auth-example1/blob/main/Screenshot.png?raw=true)
+
 
 #### Technologies
 
@@ -45,7 +47,15 @@ Verify users/groups with superadmin jenny in [Django Admin](http://localhost:800
 
 <br>
 
-### Setup
+#### run example
+
+```
+[docker|podman] compose up -d
+```
+
+Wait for the instances to complete and for Django to generate demo data 15 seconds after starting.
+
+### Configuration
 
 Essentially we start up a Django application and a Neo4J instance using Docker/Podman compose.
 Because on Podman, the depends_on property is not supported, django waits for 15 seconds to make sure Neo4J is online before it creates demo data and starts the application.
@@ -59,13 +69,3 @@ DJANGO_SUPERUSER_PASSWORD=R3placeMePlease!
 NEO4J_PW=R3placeMePlease!
 NEO4J_HOST=graphpartition_neo4j_1
 ```
-
-
-#### run
-
-```
-[docker|podman] compose up -d
-```
-
-Wait for the instances to complete and for Django to generate demo data 15 seconds after starting.
-
