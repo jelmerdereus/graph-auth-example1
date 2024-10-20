@@ -1,11 +1,12 @@
-### Graph Partition 1
+### Graph Authorization Example 1
 
-This is a Django based proof-of-concept for working with Neo4J data and authorization in Django.
+This is a Django based example for working with Neo4J data and authorization in Django.
 
 We allow users to retrieve data through REST endpoints but provide only data from a limited subgraph where a user has access, based on department.
 Users can see their own department data, and users in the 'Audit' group can see all data.
 
-The REST endpoint `/project_tasks` will query Neo4J with data that is only relevant for the scope that they are allowed to see. The REST endpoint `/own_project_tasks` does the same and filters on the tasks assigned to the given user. 
+The REST endpoint `/project_tasks` will query Neo4J with data that is only relevant for the scope that they are allowed to see. The REST endpoint `/own_project_tasks` does the same and filters on the tasks assigned to the given user.
+For this example there is a simple front-end to login for the users and show the different results.
 
 #### Technologies
 
@@ -18,7 +19,7 @@ The REST endpoint `/project_tasks` will query Neo4J with data that is only relev
 #### Demo data
 
 The Django application uses a custom command to setup some demo data. A superuser is created with the `start_django.sh` script in the entrypoint before it starts Django.
-It will create Django users in Finance and Sales departments, and create demo data in Neo4J.
+It will create Django users in Finance and Sales departments, and 'Audit', that can see data of all departments. Then it will create demo data in Neo4J.
 In Neo4J projects, project tasks and workers are created, where workers' names are equal to some usernames.
 
 Users:
@@ -28,7 +29,7 @@ Users:
 * Sales
   * loraine / loraine
   * chen / chen
-* Audit
+* Audit (see all)
   * devon / devon
 * Superadmin (can login to Django's /admin/)
   * jenny / (see environment variable)
