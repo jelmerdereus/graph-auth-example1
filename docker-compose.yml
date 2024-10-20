@@ -1,0 +1,28 @@
+services:
+  neo4j:
+    container_name: neodb1
+    network_mode: bridge
+    image: neo4j:latest
+    environment:
+      - NEO4J_AUTH=neo4j/R3placeMePlease!
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    restart: always
+    healthcheck:
+      test: wget http://localhost:7474 || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 5s
+  django:
+    container_name: gpartition1
+    network_mode: bridge
+    build: .
+    ports:
+      - '8000:8000'
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    env_file:
+      - '.env'
