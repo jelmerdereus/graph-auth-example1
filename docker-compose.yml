@@ -1,8 +1,9 @@
 services:
   neo4j:
-    container_name: neodb1
-    network_mode: bridge
-    image: neo4j:latest
+    container_name: testdb1
+    networks:
+    - pocnet1
+    image: neo4j:5.25.1-community-bullseye
     environment:
       - NEO4J_AUTH=neo4j/R3placeMePlease!
     ports:
@@ -17,7 +18,8 @@ services:
       start_period: 5s
   django:
     container_name: gpartition1
-    network_mode: bridge
+    networks:
+    - pocnet1
     build: .
     ports:
       - '8000:8000'
@@ -26,3 +28,9 @@ services:
         condition: service_healthy
     env_file:
       - '.env'
+
+networks:
+  pocnet1:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
